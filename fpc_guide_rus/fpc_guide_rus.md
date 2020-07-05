@@ -4636,12 +4636,489 @@ xor
 - `Note: Changed CPU type to be consistent with specified controller`
 
 
+### C.3 Парсер сообщений.
+
+В этом разделе перечислены все сообщения парсера. Парсер заботится о семантике вашего языка, то есть он определяет, верны ли ваши конструкции Паскаля.
+
+- `Error: Parser - Syntax Error` Обнаружена ошибка в языке Turbo Pascal. Обычно это происходит, когда в исходном файле обнаружен недопустимый символ.
+- `Error: INTERRUPT procedure cannot be nested` Процедура прерывания должна быть глобальной.
+- `Warning: Procedure type "arg1" ignored` Указанная директива процедуры игнорируется программами FPC.
+- `Error: Not all declarations of ”arg1” are declared with OVERLOAD` Если вы хотите использовать перегрузку с помощью директивы `OVERLOAD`, тогда для всех объявлений необходимо указать `OVERLOAD`.
+- `Error: Duplicate exported function name "arg1"` Имена экспортируемых функций внутри определенной библиотеки DLL должны быть разными.
+- `Error: Duplicate exported function index arg1` Индексы экспортируемой функции внутри определенной библиотеки DLL должны быть разными.
+- `Error: Invalid index for exported function` Индекс функции DLL должен находиться в диапазоне `1..$FFFF`.
+- `Warning: Relocatable DLL or executable arg1 debug info does not work, disabled` В настоящее время невозможно включить отладочную информацию в перемещаемую DLL.
+- `Warning: To allow debugging for win32 code you need to disable relocation with -WN option` Информация об отладке `Stabs` неверна для перемещаемой DLL или EXES. Используйте ключ `-WN`, если вы хотите отлаживать исполняемые файлы win32.
+- `Error: Constructor name must be INIT` Вы объявляете конструктор объекта с именем, которое не является `init`, и действует ключ `-Ss`. Смотрите переключатель `-Ss` (раздел [5.1.5](####5.1.5-Опции,-касающиеся-исходников-(языковые-опции).)).
+- `Error: Destructor name must be DONE` Вы объявляете деструктор объекта с именем, которое отличается от `done`, и действует ключ `-Ss`. Смотрите переключатель `-Ss` (раздел [5.1.5](####5.1.5-Опции,-касающиеся-исходников-(языковые-опции).)).
+- `Error: Procedure type INLINE not supported` Вы попытались скомпилировать программу со вставкой в стиле `C++`-инлайнина и забыли указать параметр `-Si` (раздел [5.1.5](####5.1.5-Опции,-касающиеся-исходников-(языковые-опции).)). Компилятор не поддерживает вставку в стиле `C++`-инлайнинга по умолчанию.
+- `Warning: Constructor should be public` Конструкторы должны быть в `public` части объявления объекта (класса).
+- `Warning: Destructor should be public` Деструкторы должны быть в `public` части объявления объекта (класса).
+- `Note: Class should have one destructor only` Вы можете объявить только один деструктор для класса.
+- `Error: Local class definitions are not allowed` Классы должны быть определены глобально. Они не могут быть определены внутри процедуры или функции.
+- `Fatal: Anonymous class definitions are not allowed` Обнаружено недопустимое объявление объекта (класса), то есть объект или класс без методов, которые не получены из другого объекта или класса. Например, эту ошибку вызовет:
+```pascal
+Type o = object  
+          a : longint;  
+          end;  
+```
+- `Note: The object ”arg1” has no VMT` Это примечание, указывающее, что у объявленного объекта нет таблицы виртуальных методов.
+- `Error: Illegal parameter list` Вы вызываете функцию с параметрами, которые имеют тип, отличный от объявленных параметров функции.
+- `Error: Wrong number of parameters specified for call to "arg1"` В списке параметров функции или процедуры имеется ошибка - число параметров неверно.
+- `Error: overloaded identifier ”arg1” isn’t a function` Компилятор обнаружил символ с тем же именем, что и перегруженная функция, но это не та функция, которую он может перегрузить.
+- `Error: overloaded functions have the same parameter list` Вы объявляете перегруженные функции, но с тем же списком параметров. Перегруженная функция должна иметь как минимум 1 другой параметр в своем объявлении.
+- `Error: function header doesn’t match the previous declaration "arg1"` Вы объявили функцию с теми же параметрами, но с другим типом результата или модификаторами функции.
+- `Error: function header "arg1" doesn’t match forward : var name changes arg2 =¿ arg3` Вы объявили функцию в части интерфейса или с помощью директивы `forward`, но определили ее с другим списком параметров. 
+- `Note: Values in enumeration types have to be ascending` Free Pascal допускает конструкции перечисления, как в `C`. Изучите следующие два объявления:
+```pascal
+type a = (A_A,A_B,A_E:=6,A_UAS:=200);  
+type a = (A_A,A_B,A_E:=6,A_UAS:=4);  
+```
+Второе объявление приведет к ошибке. Значение A_UAS должно быть выше, чем A_E, то есть не менее 7.
+- `Error: With cannot be used for variables in a different segment` `With` хранит переменную локально в стеке, но это невозможно, если переменная принадлежит другому сегменту.
+- `Error: function nesting ¿ 31` Вы можете вложить определения функций глубиной только до 31 уровня.
+- `Error: range check error while evaluating constants` Константы находятся за пределами допустимого диапазона.
+- `Warning: range check error while evaluating constants` Константы находятся за пределами допустимого диапазона.
+- `Error: duplicate case label` Вы указываете одну и ту же метку 2 раза в инструкции регистра. 
+- `Error: Upper bound of case range is less than lower bound` Верхняя граница регистра регистра меньше нижней границы, и это бесполезно.
+- `Error: typed constants of classes or interfaces are not allowed` Вы не можете объявить константу типа `class` или `object`.
+- `Error: functions variables of overloaded functions are not allowed` Вы пытаетесь назначить перегруженную функцию процедурной переменной. Это не разрешено
+- `Error: string length must be a value from 1 to 255` Длина `shortstring` в Паскале ограничена 255 символами. Вы пытаетесь объявить строку длиной менее 1 или больше 255 символов.
+- `Warning: use extended syntax of NEW and DISPOSE for instances of objects` Если у вас есть указатель на объектный тип, то оператор `new(a)` не будет инициализировать объект (т.е. конструктор не вызывается), хотя место в памяти будет выделено. Вы должны выполнить оператор `new(a,init)`. Это выделит пространство и вызовет конструктор объекта.
+- `Warning: use of NEW or DISPOSE for untyped pointers is meaningless` Использование NEW или DISPOSE для нетипизированных указателей не имеет смысла.
+- `Error: use of NEW or DISPOSE is not possible for untyped pointers` Вы не можете использовать `new(p)` или `dispose(p)`, если `p` является нетипизированным указателем, потому что с нетипизированным указателем не связан размер. Он принят для совместимости в режимах `TP` и `DELPHI`, но компилятор все равно предупредит вас, если найдет такую конструкцию.
+- `Error: class identifier expected` Это происходит, когда компилятор сканирует объявление процедуры, которое содержит точку, то есть метод объекта или класса, но тип перед точкой не является известным типом.
+- `Error: type identifier not allowed here` Вы не можете использовать тип внутри выражения. 
+- `Error: method identifier expected` Этот идентификатор не является методом. Это происходит, когда компилятор сканирует объявление процедуры, которое содержит точку, то есть метод объекта или класса, но имя процедуры не является процедурой этого типа.
+- `Error: function header doesn’t match any method of this class "arg1"` Этот идентификатор не является методом. Это происходит, когда компилятор сканирует объявление процедуры, которое содержит точку, то есть метод объекта или класса, но имя процедуры не является процедурой этого типа. 
+- `procedure/function arg1` При использовании ключа `-vd` компилятор сообщает, когда он начинает обрабатывать реализацию процедуры или функции.
+- `Error: Illegal floating point constant` Компилятор ожидает выражение с плавающей точкой и получает что-то еще. 
+- `Error: FAIL can be used in constructors only` Вы используете ключевое слово `fail` вне метода конструктора. 
+- `Error: Destructors cannot have parameters` Вы объявляете деструктор со списком параметров. Методы-деструкторы не могут иметь параметров. 
+- `Error: Only class methods, class properties and class variables can be referred with class references` Эта ошибка возникает в ситуации, подобной следующей:
+```pascal
+Type :  
+    Tclass = Class of Tobject;  
+ 
+ Var C : TClass;  
+ 
+ begin  
+ ...  
+ C.free  
+```
+`Free` не является методом класса и, следовательно, не может быть вызван со ссылкой на класс.
+- `Error: Only class methods, class properties and class variables can be accessed in class methods` Вы не можете вызвать метод объекта изнутри метода класса. Следующий код выдаст эту ошибку:
+```pascal
+class procedure tobject.x;  
+ 
+ begin  
+   free 
+```
+Поскольку `free` - это обычный метод класса, его нельзя вызвать из метода класса.
+- `Error: Constant and CASE types do not match` Одна из меток не относится к типу переменной `case`. 
+- `Error: The symbol cannot be exported from a library` Вы можете экспортировать процедуры и функции только при написании библиотеки. Вы не можете экспортировать переменные или константы. 
+- `Warning: An inherited method is hidden by "arg1"` Метод, который объявлен виртуальным в родительском классе, должен быть переопределен в классе-потомке с помощью директивы `override`. Если вы не укажете директиву `override`, вы скроете родительский метод, но не сможете переопределить его. 
+- `Error: There is no method in an ancestor class to be overridden: "arg1"` Вы пытаетесь переопределить виртуальный метод родительского класса, который не существует. 
+- `Error: No member is provided to access property` Вы указали директиву `no read` для свойства. 
+- `Warning: Stored property directive is not yet implemented` Это сообщение больше не используется, так как директива `stored` была реализована. 
+- `Error: Illegal symbol for property access` В директивах `read` или `write` для свойства массива произошла ошибка. Когда вы объявляете свойство `array`, вы можете получить к нему доступ только с помощью процедур и функций. Следующий код может вызвать такую ошибку:
+```pascal
+tmyobject = class  
+   i : integer;  
+   property x [i : integer]: integer read I write i;
+```
+- `Error: Cannot access a protected field of an object here` Поля, которые объявлены в разделе `protected` объявления объекта или класса, не могут быть доступны вне модуля, в котором определен объект, или вне методов дочернего объекта. 
+- `Error: Cannot access a private field of an object here` Поля, которые объявлены в разделе `private` объявления объекта или класса, недоступны вне модуля, в котором определен класс. 
+- `Error: Overridden methods must have the same return type: "arg2" is overridden by "arg1" which has another return type` Если вы объявляете переопределенные методы в определении класса, они должны иметь одинаковый тип возврата. 
+- `Error: EXPORT declared functions cannot be nested` Вы не можете объявить функцию или процедуру внутри функции или процедуры, которая была объявлена как процедура экспорта. 
+- `Error: Methods cannot be EXPORTed` Вы не можете объявить процедуру, которая является методом для объекта, как `exported`. 
+- `Error: Call by var for arg no. arg1 has to match exactly: Got "arg2" expected "arg3"` При вызове функции, объявленной с параметрами `var`, переменные в вызове функции должны быть абсолютно одинакового типа. Там нет автоматического преобразования типа. 
+- `Error: Class isn’t a parent class of the current class` При вызове унаследованных методов вы пытаетесь вызвать метод несвязанного класса. Вы можете вызвать только унаследованный метод родительского класса. 
+- `Error: SELF is only allowed in methods` Вы пытаетесь использовать параметр `self` вне метода объекта. Только методы получают параметры `self`. 
+- `Error: Methods can be only in other methods called direct with type identifier of the class` Конструкция типа `sometype.somemethod` разрешена только в методе.
+- `Error: Illegal use of ’:’` Вы используете формат `:`(двоеточие) 2 раза для выражения, которое не является реальным выражением. 
+- `Error: range check error in set constructor or duplicate set element` Объявление набора содержит ошибку. Либо один из элементов находится за пределами диапазона установленного типа, либо два элемента фактически одинаковы. 
+- `Error: Pointer to object expected` Вы указали недопустимый тип в выражени `new`. Расширенный синтаксис `new` нуждается в объекте в качестве параметра.
+- `Error: Expression must be constructor call` При использовании расширенного синтаксиса `new` необходимо указать метод конструктора объекта, который вы пытаетесь создать. Указанная вами процедура не является конструктором. 
+- `Error: Expression must be destructor call` При использовании расширенного синтаксиса `dispose` необходимо указать метод деструктора объекта, которым вы пытаетесь его освободить. Указанная вами процедура не является деструктором.
+- `Error: Illegal order of record elements` При объявлении постоянной записи вы указали поля в неправильном порядке. 
+- `Error: Expression type must be class or record type, got arg1` С оператором `with` должен иметь аргумент типа `record` или `class`. Вы используете `with` с выражением, которое не относится к этому типу. 
+- `Error: Procedures cannot return a value` Во Free Pascal вы можете указать возвращаемое значение для функции при использовании оператора `exit`. Эта ошибка возникает, когда вы пытаетесь сделать это с помощью процедуры. Процедуры не могут возвращать значение. 
+- `Error: constructors, destructors and class operators must be methods` Вы объявляете процедуру как деструктор, конструктор или оператор класса, когда процедура не является методом класса. 
+- `Error: Operator is not overloaded` Вы пытаетесь использовать перегруженный оператор, когда он не перегружен для этого типа. 
+- `Error: Impossible to overload assignment for equal types` Вы не можете перегружать присвоение для типов, которые компилятор считает равными. 
+- `Error: Impossible operator overload` Комбинация оператора, аргументов и возвращаемого типа несовместимы. 
+- `Error: Re-raise isn’t possible there` Вы пытаетесь повторно вызвать исключение, если оно не разрешено. Вы можете повторно вызывать исключения только в блоке `except`. 
+- `Error: The extended syntax of new or dispose isn’t allowed for a class` Вы не можете создать экземпляр класса с расширенным синтаксисом `new`. Для этого должен использоваться конструктор. По той же причине вы не можете вызвать `dispose` для удаления объекта класса, для этого должен использоваться деструктор. 
+- `Error: Procedure overloading is switched off` При использовании ключа `-So` перегрузка процедур отключается. Turbo Pascal не поддерживает перегрузку функций.
+- `Error: It is not possible to overload this operator. Related overloadable operators (if any) are: arg1` Вы пытаетесь перегрузить оператор, который не может быть перегружен. Могут быть перегружены следующие операторы:
+```pascal
++, -, *, /, =, >, <, <=, >=, is, as, in, **, :=
+```
+- `Error: Comparative operator must return a boolean value` При перегрузке оператора `=` функция должна возвращать логическое значение. 
+- `Error: Only virtual methods can be abstract` Вы объявляете метод абстрактным, когда он не объявлен виртуальным. 
+- `Fatal: Use of unsupported feature: "arg1"` Вы пытаетесь заставить компилятор сделать то, что он пока не может сделать. 
+- `Error: The mix of different kind of objects (class, object, interface, etc) isn’t allowed` Вы не можете получить `objects`, `classes`, `cppclasses` и `interfaces`, перемешанные между собой. Например, класс не может иметь объект в качестве родителя и наоборот. 
+- `Warning: Unknown procedure directive had to be ignored: "arg1"` Указанная вами директива процедуры неизвестна. 
+- `Error: arg1 can be associated with only one variable` Вы не можете указать более одной переменной перед директивами `absolute`, `export`, `external`, `weakexternal`, `public` и `cvar`. В результате, например, следующая конструкция выдаст эту ошибку:
+```pascal
+Var Z : Longint;  
+     X,Y : Longint absolute Z;
+```
+- `Error: absolute can only be associated with a var or const` Адрес директивы `absolute` может указывать только на переменную или константу. Поэтому следующий код выдаст эту ошибку:
+```pascal
+Procedure X;  
+ 
+  var p : longint absolute x;
+```
+- `Error: Only one variable can be initialized` Вы не можете указать более одной переменной с начальным значением в режиме `Delphi`. 
+- `Error: Abstract methods shouldn’t have any definition (with function body)` Абстрактные методы могут быть только объявлены, вы не можете их реализовать. Они должны быть переопределены классом-потомком. 
+- `Error: This overloaded function cannot be local (must be exported)` Вы определяете перегруженную функцию в части реализации модуля, но в интерфейсной части модуля нет соответствующего объявления. 
+- `Warning: Virtual methods are used without a constructor in "arg1"` Если вы объявляете объекты или классы, которые содержат виртуальные методы, вам нужен конструктор и деструктор для их инициализации. Компилятор обнаружил объект или класс с виртуальными методами, у которых нет пары конструктор/деструктор.
+- `Macro defined: arg1` Когда используется ключ `-vc`, компилятор сообщает вам, когда он задает определение макросов. 
+- `Macro undefined: arg1` Когда используется ключ `-vc`, компилятор сообщает вам, когда он отменяет определение макросов. 
+- `Macro arg1 set to arg2` Когда используется ключ `-vc`, компилятор сообщает вам, какие значения получают макросы. 
+- `Info: Compiling arg1` Когда вы включаете информационные сообщения (`-vi`), компилятор сообщает вам, какие модули он перекомпилирует.
+- `Parsing interface of unit arg1` Это говорит о том, что началось чтение интерфейса текущего модуля. 
+- `Parsing implementation of arg1` Это говорит о том, что чтение кода реализации текущего модуля, библиотеки или запущенной программы. 
+- `Compiling arg1 for the second time` Когда вы запрашиваете отладочные сообщения (`-vd`), компилятор сообщает вам, какие модули он перекомпилирует во второй раз. 
+- `Error: No property found to override` Вы хотите переопределить свойство родительского класса, которого в родительском классе фактически нет. 
+- `Error: Only one default property is allowed` Вы указали свойство ` Default`, но у класса уже есть свойство по умолчанию, а у класса может быть только одно свойство по умолчанию. 
+- `Error: The default property must be an array property` Только свойства массива классов могут быть сделаны свойствами `default`. 
+- `Error: Virtual constructors are only supported in class object model` В объектах не может быть виртуальных конструкторов. Вы можете иметь их только в классах. 
+- `Error: No default property available` Вы пытаетесь получить доступ к свойству класса по умолчанию, но этот класс (или один из его предков) не имеет свойства по умолчанию. 
+- `Error: The class cannot have a published section, use the {$M+} switch` Если вы хотите включить раздел `published` в определении класса, вы должны использовать переключатель `{$M+}`, который включает генерацию информации о типе. 
+- `Error: Forward declaration of class "arg1" must be resolved here to use the class as ancestor` Чтобы иметь возможность использовать объект в качестве объекта-предка, он должен быть определен первым. Эта ошибка возникает в следующей ситуации:
+```pascal
+Type ParentClas = Class;  
+       ChildClass = Class(ParentClass)  
+         ...  
+       end;
+```
+где `ParentClass` объявлен, но не определен.
+- `Error: Local operators not supported` Вы не можете перегружать процедуру локально, то есть внутри процедур или определений функций. 
+- `Error: Procedure directive "arg1" not allowed in interface section` Эта директива процедуры недопустима в разделе `interface` модуля. Вы можете использовать его только в разделе `implementation`. 
+- `Error: Procedure directive "arg1" not allowed in implementation section` Эта директива процедуры не разрешена в разделе `implementation` модуля. Вы можете использовать его только в разделе `interface`. 
+- `Error: Procedure directive "arg1" not allowed in procvar declaration` Эта директива процедуры не может быть частью объявления процедурного типа или объявления типа функции. 
+- `Error: Function is already declared Public/Forward "arg1"` Вы получите эту ошибку, если функция определена как `forward` дважды. Или, если это происходит сначала в разделе `interface`, и снова как объявление `forward` в разделе `implementation`. 
+- `Error: Cannot use both EXPORT and EXTERNAL` Эти две директивы процедуры являются взаимоисключающими. 
+- `Hint: "arg1" not yet supported inside inline procedure/function` Встроенные процедуры не поддерживают эту декларацию. 
+- `Hint: Inlining disabled` Встраивание процедур отключено. 
+- `Info: Writing Browser log arg1` Если информационные сообщения включены, компилятор предупреждает вас, когда он записывает журнал браузера (генерируется с помощью переключателя `{$Y+}`). 
+- `Hint: may be pointer dereference is missing` Компилятор считает, что указатель может нуждаться в разыменовании. 
+- `Fatal: Selected assembler reader not supported` Выбранный считыватель ассемблера (с `{$ASMMODE xxx}`) не поддерживается. Компилятор может быть скомпилирован с или без поддержки определенного считывателя ассемблера.
+- `Error: Procedure directive "arg1" cannot be used with arg2` Вы указали директиву процедуры, которая конфликтует с другими директивами. Например, `cdecl` и `pascal` являются взаимоисключающими. 
+- `Error: Calling convention doesn’t match forward` Эта ошибка возникает, когда вы объявляете функцию или процедуру, например, с помощью `cdecl`; но пропустили эту директиву в реализации, или наоборот. Соглашение о вызовах является частью объявления функции и должно повторяться в определении функции. 
+- `Error: Property cannot have a default value` Заданные свойства или индексированные свойства не могут иметь значение по умолчанию. 
+- `Error: The default value of a property must be constant` Значение объявленного свойства по умолчанию должно быть известно во время компиляции. Указанное вами значение известно только во время выполнения. Это происходит, например, если вы указали имя переменной в качестве значения по умолчанию. 
+- `Error: Symbol cannot be published, can be only a class` Только переменные типа класса могут быть в разделе `published` класса, если они не объявлены как свойство. 
+- `Error: This kind of property cannot be published` Свойства в разделе `published` не могут быть свойствами массива. Они должны быть перемещены в раздел `published`. Свойства в разделе `published` должны иметь тип `ordinal`, `real`, `string` или `set`. 
+- `Error: An import name is required` Для некоторых целей требуется имя для импортируемой процедуры или спецификатор `cdecl`. 
+- `Error: Division by zero` Произошло деление на ноль.
+- `Error: Invalid floating point operation` Операция над двумя значениями типа `real` привела к переполнению или делению на ноль. 
+- `Error: Upper bound of range is less than lower bound` Верхняя граница объявления массива меньше нижней границы, а это невозможно. 
+- `Warning: string "arg1" is longer than "arg2"` Размер константной строки больше размера, указанного в определении типа строки. 
+- `Error: string length is larger than array of char length` Размер константной строки больше размера, указанного определения `Array[x..y] of char`. 
+- `Error: Illegal expression after message directive` Free Pascal поддерживает только целочисленные или строковые значения в качестве констант сообщения.
+- `Error: Message handlers can take only one call by ref. parameter` Метод, объявленный с директивой `message` как обработчик сообщения, может принимать только один параметр, который должен быть объявлен как вызов по ссылке. Параметры объявляются как вызов по ссылке с использованием директивы `var`.
+- `Error: Duplicate message label: "arg1"` Метка для сообщения используется дважды в одном и том же объекте/классе. 
+- `Error: Self can only be an explicit parameter in methods which are message handlers` Параметр `Self` может быть явно передан только методу, который объявлен как обработчик сообщений. 
+- `Error: Threadvars can be only static or global` `Threadvars` должен быть статическим или глобальным; Вы не можете объявить поток локальным для процедуры. Локальные переменные всегда локальны для потока, потому что каждый поток имеет свой собственный стек, а локальные переменные хранятся в стеке.
+- `Fatal: Direct assembler not supported for binary output format` Вы не можете использовать прямой ассемблер при использовании двоичного модуля записи. Выберите другой выходной формат или используйте другой ассемблерный считыватель. 
+- `Warning: Don’t load OBJPAS unit manually, use {$mode objfpc} or {$mode delphi} instead` Вы пытаетесь загрузить модуль `ObjPas` вручную из раздела `uses`. Это не очень хорошая идея. Используйте директивы `{$MODE OBJFPC}` или `{$mode delphi}`, которые загружают модуль автоматически. 
+- `Error: OVERRIDE cannot be used in objects` Переопределение не поддерживается для объектов, вместо этого используйте директиву `virtual`, чтобы переопределить метод родительского объекта. 
+- `Error: Data types which require initialization/finalization cannot be used in variant records` Некоторые типы данных (например, `ansistring`) нуждаются в коде инициализации/финализации, который неявно генерируется компилятором. Такие типы данных нельзя использовать в вариантной части записи. 
+- `Error: Resourcestrings can be only static or global` Строка ресурсов не может быть объявлена локально, только глобально или с использованием директивы `static`. 
+- `Error: Exit with argument cannot be used here` Здесь нельзя использовать оператор выхода с аргументом для возвращаемого значения. Это может произойти, например, в блоках `try..except` или `try..finally`. 
+- `Error: The type of the storage symbol must be boolean` Если вы указываете символ `storage` в объявлении свойства, это должен быть логический тип. 
+- `Error: This symbol isn’t allowed as storage symbol` Этот тип символа нельзя использовать в качестве спецификатора хранилища в объявлении свойства. Вы можете использовать только методы с логическим типом, полями логического класса или логическими константами. 
+- `Error: Only classes which are compiled in $M+ mode can be published` Поле с типом класса в разделе `published` класса может быть только классом, который был скомпилирован с директивой `{$M+}` или является производным от такого класса. Обычно такой класс должен быть производным от `TPersistent`.
+- `Error: Procedure directive expected` Эта ошибка возникает, если у вас есть директива `{$Calling}` без указания соглашения о вызовах. Это также происходит при объявлении процедуры в константном блоке и использовании вами `;` после объявления процедуры, за которой должна следовать директива процедуры. Правильное объявление: 
+```pascal
+const  
+   p : procedure;stdcall=nil;  
+   p : procedure stdcall=nil;
+```
+- `Error: The value for a property index must be of an ordinal type` Значение, которое вы используете для индексации свойства, должно иметь порядковый тип, например, целочисленный (`integer`) или перечислимый (`enum`) тип. 
+- `Error: Procedure name too short to be exported` Длина имени процедуры/функции должна быть не менее 2 символов. Это связано с багом в `dlltool`, которая неправильно анализирует файл `.def` с именем длиной 1 символ. 
+- `Error: No DEFFILE entry can be generated for unit global vars` Запись `DEFFILE` не может быть сгенерирована для глобальных переменных модуля.
+- `Error: Compile without -WD option` Вам необходимо скомпилировать этот файл без ключа `-WD` в командной строке. 
+- `Fatal: You need ObjFpc (-S2) or Delphi (-Sd) mode to compile this module` Вам нужно использовать `{$MODE OBJFPC}` или `{$MODE DELPHI}` для компиляции этого файла. Или используйте соответствующий ключ командной строки, `-Mobjfpc` или `-MDelphi`. 
+- `Error: Cannot export with index under arg1` Экспорт функций или процедур с указанным индексом не поддерживается для этой цели. 
+- `Error: Exporting of variables is not supported under arg1` Экспорт переменных не поддерживается для этой цели. 
+- `Error: Improper GUID syntax` Показанный GUID имеет неправильный синтаксис. Он должен иметь вид 
+```pascal
+{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}
+```
+, где каждый `X` представляет шестнадцатеричное число. 
+- `Warning: Procedure named "arg1" not found that is suitable for implementing the arg2.arg3` Компилятору не удалось найти подходящую процедуру, которая реализует данный метод интерфейса. Процедура с тем же именем найдена, но аргументы не совпадают. 
+- `Error: interface identifier expected` Это происходит, когда компилятор сканирует объявление класса, содержащее код отображения имени интерфейсной функции, например: 
+```pascal
+type  
+   TMyObject = class(TObject, IDispatch)  
+     function IUnknown.QueryInterface=MyQueryInterface;  
+     ....  
+```
+но в списке наследования перед точкой `interface` не указано.
+- `Error: Type "arg1" cannot be used as array index type` Типы, подобные `qword` или `int64`, не допускаются как тип индекса массива. 
+- `Error: Con- and destructors are not allowed in interfaces` Объявления конструкторов и деструкторов в интерфейсах недопустимы. В большинстве случаев для создания нового интерфейса может использоваться метод `QueryInterface` из `IUnknown`. 
+- `Error: Access specifiers cannot be used in INTERFACEs and OBJCPROTOCOLs` Спецификаторы доступа `public`, `private`, `protected` или `published` не могут использоваться в интерфейсах, протоколах и категориях `Objective-C`, поскольку все методы интерфейса/протокола/категории должны быть публичными. 
+- `Error: An interface, helper or Objective-C protocol or category cannot contain fields` Объявления полей недопустимы в интерфейсах, хелперах и протоколах и категориях `Objective C`. Интерфейс/хелпер/протокол/категория может содержать только методы и свойства со спецификаторами чтения/записи метода. 
+- `Error: Cannot declare local procedure as EXTERNAL` Объявление локальных процедур внешними невозможно. Локальные процедуры получают скрытые параметры, которые повышают вероятность ошибок. 
+- `Warning: Some fields coming before ”arg1” were not initialized` В режиме `Delphi` не все поля типизированной константной записи должны быть инициализированы, но компилятор предупреждает вас при обнаружении таких ситуаций. 
+- `Error: Some fields coming before ”arg1” were not initialized` Во всех режимах синтаксиса, кроме режима `Delphi`, нельзя оставлять некоторые поля неинициализированными в середине типизированной константной записи.
+- `Warning: Some fields coming after ”arg1” were not initialized` Вы можете оставить некоторые поля в конце типизированной константной записи неинициализированными (компилятор автоматически инициализирует их нулями). Это может быть причиной трудноуловимых проблем. 
+- `Error: VarArgs directive (or ’...’ in MacPas) without CDecl/CPPDecl/MWPascal/StdCall and External` Директива `varargs` (или параметр `«...» varargs` в режиме `MacPas`) может использоваться только с процедурами или функциями, которые объявляются с внешним и одним из соглашений о вызове `cdecl`, `cppdecl`, `stdcall` и `mwpascal`. Эта функциональность поддерживается только для обеспечения совместимого интерфейса с функциями `C`, такими как `printf`. 
+- `Error: Self must be a normal (call-by-value) parameter` Вы не можете объявить `Self` как параметр `const` или `var`, он всегда должен быть параметром по значению. 
+- `Error: Interface "arg1" has no interface identification` Если вы хотите назначить интерфейс константе, то в интерфейсе должно быть задано значение `GUID`. 
+- `Error: Unknown class field or method identifier "arg1"` Свойства должны ссылаться на поле или метод в том же классе. 
+- `Warning: Overriding calling convention "arg1" with "arg2"` В объявлении процедуры содержаться две директивы, которые определяют соглашение о вызовах. Будет использоваться только последняя директива. 
+- `Error: Typed constants of the type "procedure of object" can only be initialized with NIL` Нельзя присвоить адрес метода типизированной константе с типом `procedure of object`, поскольку для такой константы требуется два адреса: адрес метод (который известен во время компиляции) и метод объекта или экземпляра класса, с которым он работает (который не может быть известен во время компиляции).
+- `Error: Default value can only be assigned to one parameter` Невозможно указать значение по умолчанию для нескольких параметров одновременно. Недопустимо следующее: 
+```pascal
+Procedure MyProcedure (A,B : Integer = 0);
+```
+Вместо этого это должно быть объявлено как: 
+```pascal
+Procedure MyProcedure (A : Integer = 0; B : Integer = 0);
+```
+- `Error: Default parameter required for "arg1"` Для указанного параметра требуется значение по умолчанию. 
+- `Warning: Use of unsupported feature!` Вы пытаетесь заставить компилятор сделать то, что он пока не может сделать. 
+- `Hint: C arrays are passed by reference` Любой массив, переданный функции `C`, передается по указателю (то есть по ссылке). 
+- `Error: C array of const must be the last argument` Вы не можете добавить любой другой аргумент после `array of const` для функций `cdecl`, так как размер, помещаемый в стек для этого аргумента, неизвестен. 
+- `Hint: Type "arg1" redefinition` Это показатель того, что ранее объявленный тип переопределяется как нечто другое. Это может может быть, а можкт и не быть,  потенциальным источником ошибок. 
+- `Warning: cdecl’ared functions have no high parameter` Функции, объявленные с модификатором `cdecl`, не передают дополнительный неявный параметр.
+- `Warning: cdecl’ared functions do not support open strings` Открытые строковые параметры не поддерживается для функций, имеющих модификатор `cdecl`. 
+- `Error: Cannot initialize variables declared as threadvar` Переменные, объявленные как `threadvar`, не могут быть инициализированы значением по умолчанию. Переменные всегда будут заполнены нулями при запуске нового потока.
+- `Error: Message directive is only allowed in Classes` Директива `message` поддерживается только для классовых типов. 
+- `Error: Procedure or Function expected` Метод класса может быть указан только для процедур и функций. 
+- `Warning: Calling convention directive ignored: "arg1"` Некоторые соглашения о вызовах поддерживаются только определенными процессорами. То есть большинство не-i386 портов поддерживают только стандартное соглашение о вызовах ABI CPU.
+- `Error: REINTRODUCE cannot be used in objects` Директива `reintroduce` не поддерживается для объектов, классов `Objective-C` и протоколов `Objective-C`.
+- `Error: Each argument must have its own location` Если местоположения для аргументов указаны явно, как того требуют некоторые соглашения о системных вызовах, каждый аргумент должен иметь свое собственное местоположение. Такие вещи, как 
+```pascal
+procedure p(i,j : longint 'r1');
+```
+не допускаются 
+- `Error: Each argument must have an explicit location` Если один аргумент имеет свое явное местоположение, то и остальные аргументы процедуры должны иметь его. 
+- `Error: Unknown argument location` Местоположение, указанное для аргумента, не распознается компилятором. 
+- `Error: 32 Bit-Integer or pointer variable expected` Библиотеку `libbase` для MorphOS/AmigaOS можно задавать только как `longint`, `dword` или любую переменную указателя.
+- `Error: Goto statements are not allowed between different procedures` Не допускается использование операторов `Goto`, ссылающихся на метки вне текущей процедуры. В следующем примере показана проблема:
+```pascal
+  procedure p1;  
+   label  
+     l1;  
+ 
+     procedure p2;  
+     begin  
+       goto l1; // This goto ISN’T allowed  
+     end;  
+ 
+   begin  
+     p2  
+   l1:  
+   end;  
+ ...  
+```
+- `Fatal: Procedure too complex, it requires too many registers` Тело процедуры слишком длинное для компилятора. Вы должны разделить процедуру на несколько меньших процедур. 
+- `Error: Illegal expression` Это может произойти при многих обстоятельствах. Обычно при попытке оценить постоянные выражения. 
+- `Error: Invalid integer expression` Вы создали выражение, которое не является целым числом, и компилятор ожидает, что результатом будет целое число. 
+- `Error: Illegal qualifier` Происходит одно из следующих действий: 
+    - Вы пытаетесь получить доступ к полю переменной, которая не является записью. 
+    - Вы индексируете переменную, которая не является массивом. 
+    - Вы разыменовываете переменную, которая не является указателем.
+- `Error: High range limit ¡ low range limit` Вы объявляете поддиапазон, и верхний предел меньше нижнего предела диапазона. 
+- `Error: Exit’s parameter must be the name of the procedure it is used in or of a surrounding procedure` Параметр вызова выхода в режиме `macpas` должен быть либо именем текущей подпрограммы, либо одной из ее окружения. 
+- `Error: Illegal assignment to for-loop variable "arg1"` Тип переменной цикла `for` должен быть порядковым типом. Переменные цикла не могут быть типом `real` или `string`. Вы также не можете присвоить значения переменным цикла внутри цикла (за исключением режимов `Delphi` и `TP`). Используйте цикл `while` или `repeat` вместо этого, если вам нужно сделать что-то подобное, поскольку эти конструкции были созданы именно для этого. 
+- `Error: Cannot declare local variable as EXTERNAL` Объявление локальных переменных как внешних недопустимо. Только глобальные переменные могут ссылаться на внешние переменные. 
+- `Error: Procedure is already declared EXTERNAL` Процедура уже объявлена с директивой `EXTERNA`L в интерфейсе или в предварительном объявлении.
+- `Warning: Implicit uses of Variants unit` Тип `Variant` задействован в модуле без использования модуля, использующего модуль Variants. Компилятор неявно добавил модуль `Variants` в список использований. Чтобы убрать это предупреждение, модуль `Variants` необходимо добавить в раздел `uses`. 
+- `Error: Class and static methods cannot be used in INTERFACES` Класс спецификатора и директива `static` не могут использоваться в интерфейсах, поскольку все методы интерфейса должны быть открытыми. 
+- `Error: Overflow in arithmetic operation` Операция с двумя целочисленными значениями вызвала переполнение. 
+- `Error: Protected or private expected` `strict` может использоваться только вместе с `protected` или `private`. 
+- `Error: SLICE cannot be used outside of parameter list` `slice` можно использовать только для аргументов, принимающих параметр открытого массива.
+- `Error: A DISPINTERFACE cannot have a parent class` `DISPINTERFACE` - это специальный тип интерфейса, который не может иметь родительский класс. `Dispinterface` всегда происходит от типа `IDispatch`. 
+- `Error: A DISPINTERFACE needs a guid` `DISPINTERFACE` всегда требует идентификации интерфейса (GUID). 
+- `Warning: Overridden methods must have a related return type. This code may crash, it depends on a Delphi parser bug ("arg2" is overridden by "arg1" which has another return type)` Если вы объявляете переопределенные методы в определении класса, они должны иметь одинаковый возвращаемый тип. Некоторые версии Delphi позволяют изменять тип возвращаемых методов интерфейса и даже изменять процедуры на функции, но результирующий код может завершиться сбоем в зависимости от используемых типов и способа вызова методов. 
+- `Error: Dispatch IDs must be ordinal constants` За ключевым словом `dispid` должна стоять порядковая константа (индекс `dispid`). 
+- `Error: The range of the array is too large` Независимо от размера, занимаемого его элементами, массив не может иметь больше, чем элементы `high (ptrint)`. Кроме того, тип диапазона должен быть поддиапазоном `ptrint`.
+- `Error: The address cannot be taken of bit packed array elements and record fields` Если вы объявите массив или запись как `packed` в режиме `Mac Pascal` (или как `packed` в любом режиме с `{$bitpacking on}`), он будет упакован в бит уровень. Это означает, что становится невозможным брать адреса отдельных элементов массива или полей записи. Единственное исключение из этого правила - в случае элементов упакованных массивов, размер упакованного которых кратен 8 битам. 
+- `Error: Dynamic arrays cannot be packed` Могут быть упакованы только обычные (и, возможно, в будущем также открытые) массивы. 
+- `Error: Bit packed array elements and record fields cannot be used as loop variables` Если вы объявите массив или запись как `packed` в режиме `Mac Pascal` (или как `packed` в любом режиме с `{$bitpacking on}`), он будет упакован в бит уровень. По соображениям производительности их нельзя использовать в качестве переменных цикла. 
+- `Error: VAR, TYPE and CONST are allowed only in records, objects and classes` Использование `VAR`, `TYPE` и `CONST` для объявления новых типов внутри объекта допускается только внутри записей, объектов и классов. 
+- `Error: This type cannot be a generic` Только классы, объекты, интерфейсы и записи могут использоваться как универсальные.
+- `Warning: Don’t load LINEINFO unit manually, Use the -gl compiler switch instead` Не используйте модуль `lineinfo` напрямую, используйте ключ `-gl`, который автоматически добавляет правильный модуль для чтения выбранного типа отладочной информации. Модуль, который должен использоваться, зависит от типа отладочной информации, используемой при компиляции двоичного файла. 
+- `Error: No function result type specified for function "arg1"` При первом объявлении функции необходимо полностью ее объявить, включая все параметры и тип результата. 
+- `Error: Specialization is only supported for generic types` Типы, которые не являются универсальными, не могут быть специализированными. 
+- `Error: Generics cannot be used as parameters when specializing generics` При специализации дженериков в качестве параметров могут использоваться только неуниверсальные типы. 
+- `Error: Constants of objects containing a VMT are not allowed` Если объект требует VMT, либо из-за того, что он содержит конструктор или виртуальные методы, ему не разрешено создавать свои константы. В режимах `TP` и `Delphi` это разрешено по причинам совместимости. 
+- `Error: Taking the address of labels defined outside the current scope isn’t allowed` Не разрешается принимать адрес меток за пределами текущей процедуры.
+- `Error: Cannot initialize variables declared as external` Переменные, объявленные как внешние, не могут быть инициализированы значением по умолчанию.
+- `Error: Illegal function result type` Некоторые типы, такие как тип `File`, не могут использоваться в качестве результата функции. 
+- `Error: No common type possible between "arg1" and "arg2"` Для выполнения операции над целыми числами компилятор преобразует оба операнда в их общий тип, который представляется недопустимым типом. Чтобы определить общий тип операндов, компилятор берет минимум минимальных значений обоих типов и максимум максимальных значений обоих типов. Общий тип тогда minimum..maximum.
+- `Error: Generics without specialization cannot be used as a type for a variable` Дженерики должны всегда быть специализированы, прежде чем будут использоваться в качестве типа переменной. 
+- `Warning: Register list is ignored for pure assembler routines` При использовании процедур на чистом ассемблере список с измененными регистрами игнорируется. 
+- `Error: Implements property must have class or interface type` Свойство, которое реализует интерфейс, должно иметь тип класса или интерфейса. 
+- `Error: Implements-property must implement interface of correct type, found "arg1" expected "arg2"` Свойство, которое реализует данный интерфейс, фактически реализует другой интерфейс. 
+- `Error: Implements-property must have read specifier` Свойство, реализующее интерфейс, должно иметь, по крайней мере, спецификатор чтения. 
+- `Error: Implements-property must not have write-specifier` Свойство, реализующее интерфейс, может не иметь спецификатора записи. 
+- `Error: Implements-property must not have stored-specifier` Свойство, реализующее интерфейс, может не иметь хранимого спецификатора. 
+- `Error: Implements-property used on unimplemented interface: "arg1"` Интерфейс, который реализуется свойством, не является интерфейсом, который реализуется классом. 
+- `Error: Floating point not supported for this target` Компилятор проанализировал выражение с плавающей точкой, а оно не поддерживается. 
+- `Error: Class ”arg1” does not implement interface ”arg2”` Делегированный интерфейс не реализован классом, указанным в разделе `Implements`. 
+- `Error: Type used by implements must be an interface` За ключевым словом `Implements` должен следовать тип интерфейса. 
+- `Error: Variables cannot be exported with a different name on this target, add the name to the declaration using the ”export” directive (variable name: arg1, declared export name: arg2)` В большинстве целей невозможно изменить имя, под которым экспортируется переменная, внутри оператора экспорта библиотеки. В этом случае вы должны указать экспортируемое имя в точке, где объявлена переменная, используя директивы `export` и `alias`. 
+- `Error: Weak external symbols are not supported for the current target` «Weak external» symbol - это символ, который может существовать или не существовать во время (статической или динамической) линковки. Эта концепция может быть недоступна (или еще не реализована) в текущей цели процессора/ОС. 
+- `Error: Forward type definition does not match` Классы и интерфейсы, определенные как `forward`, должны иметь одинаковый тип при реализации. Интерфейс, объявленный как `forward`, не может быть изменен на класс.
+- `Note: Virtual method "arg1" has a lower visibility (arg2) than parent class arg3 (arg4)` Виртуальный метод переопределяет метод, объявленный с более высокой видимостью. Это может дать неожиданные результаты. Например, если новая видимость является `private`, то вызов «унаследованного» метода в новом дочернем классе вызовет более видимый метод в родительском классе и проигнорирует `private`- метод. 
+- `Error: Fields cannot appear after a method or property definition, start a new visibility section first` После того, как метод или свойство было определено в классе или объекте, вы не можете определить какие-либо поля впоследствии, не запустив новый раздел видимости (например, `public`, `private` и т.д.). Причина в том, что в противном случае исходный код может показаться компилятору неоднозначным, поскольку возможно использование модификаторов, таких как `default` и `register`, также в качестве имен полей. 
+- `Error: Parameters or result types cannot contain local type definitions. Use a separate type definition in a type block.` В Паскале типы не считаются идентичными просто потому, что они семантически эквивалентны. Две переменные или параметры считаются имеющими одинаковый тип, только если они ссылаются на одно и то же определение типа. В результате не разрешается определять новые типы в списках параметров, потому что тогда невозможно сослаться на одно и то же определение типа в заголовках процедур интерфейса и реализации модуля (оба заголовка процедур будут определять отдельный тип). Имейте виду, что такие выражения, как `file of byte` или `string[50]`, также определяют новый тип. 
+- `Error: ABSTRACT and SEALED conflict` `ABSTRACT` и `SEALED` нельзя использовать вместе в одном объявлении. 
+- `Error: Cannot create a descendant of the sealed class "arg1"` `SEALED` означает, что класс не может быть получен другим классом. 
+- `Error: SEALED class cannot have an ABSTRACT method` `SEALED` означает, что класс не может быть получен. Поэтому ни один класс не может переопределить абстрактный метод в `SEALED`-классе. 
+- `Error: Only virtual methods can be final` Вы объявляете метод как `final`, если он не объявлен как `virtual`.
+- `Error: Final method cannot be overridden: "arg1"` Вы пытаетесь переопределить виртуальный метод родительского класса, которого не существует. 
+- `Error: Only one message can be used per method` Невозможно связать несколько сообщений с одним методом. 
+- `Error: Invalid enumerator identifier: "arg1"` Поддерживаются только идентификаторы перечислителей `MoveNext` и `Current`. 
+- `Error: Enumerator identifier required` Идентификатор `MoveNext` или `Current` должен следовать за модификатором перечислителя. 
+- `Error: Enumerator MoveNext pattern method is not valid. Method must be a function with the Boolean return type and no required arguments` Метод шаблона перечислителя `MoveNext` должен быть функцией с логическим типом возвращаемого результата и без обязательных аргументов. 
+- `Error: Enumerator Current pattern property is not valid. Property must have a getter` Свойство шаблона перечислителя `Current` должно иметь геттер. 
+- `Error: Only one enumerator MoveNext method is allowed per class/object` Класс или объект могут иметь только одно объявление перечислителя `MoveNext`. 
+- `Error: Only one enumerator Current property is allowed per class/object` Класс или объект могут иметь только одно объявление перечислителя `Current`. 
+- `Error: For in loop cannot be used for the type "sarg1"` Цикл `for..to..do..` может использоваться не для всех типов. Например, его нельзя использовать для перечислений с переходами. 
+- `Error: Objective-C messages require their Objective-C selector name to be specified using the "message" directive` Сообщения `Objective C` требуют, чтобы их имя в `Objective C` (имя селектора) было указано с помощью директивы процедуры `message 'someName:'`. Хотя привязки к другим языкам автоматически генерируют такие имена на основе используемого вами идентификатора (заменяя все подчеркивания на двоеточия), это небезопасно, поскольку ничто не мешает имени метода `Objective C` содержать действительные двоеточия.
+- `Error: Objective-C does not have formal constructors nor destructors. Use the alloc, initXXX and dealloc messages` Язык `Objective-C` не имеет конструкторов или деструкторов. Хотя существуют некоторые сообщения с аналогичной целью (например, `init` и `dealloc`), они не могут идентифицироваться с помощью автоматических анализаторов и при этом не гарантируется ничего похожего на конструкторы/деструкторы Pascal (например, вам нужно позаботиться только о том, чтобы называть «назначенным» унаследованные «конструкторы»). По этим причинам мы решили следовать стандартным шаблонам `Objective C` для создания/уничтожения экземпляров. 
+- `Error: Message name is too long (max. 255 characters)` Из-за особенностей реализации компилятора имена сообщений в настоящее время ограничены 255 символами. 
+- `Error: Objective-C message symbol name for "arg1" is too long` Из-за особенностей реализации компилятора искаженные имена сообщений (то есть имена символов, используемые в коде ассемблера) в настоящее время ограничены 255 символами. 
+- `Hint: Defining a new Objective-C root class. To derive from another root class (e.g., NSObject), specify it as the parent class` Если родительский класс не указан для класса `Object Pascal`, он автоматически наследуется от `TObject`. Классы `Objective-C`, однако, не являются автоматически производными от `NSObject`, потому что в `Objective-C` может быть несколько корневых классов. Например, в среде Cocoa `NSObject` и `NSProxy` являются корневыми классами. Следовательно, вы должны явно определить родительский класс (например, `NSObject`), если вы хотите извлечь из него ваш класс `Objective-C`. 
+- `Error: Objective-C classes cannot have published sections` В Object Pascal слово `published` определяет, генерируется ли RTTI. Поскольку среда выполнения `Objective C` всегда требует RTTI для всего, это не имеет смысла для классов `Objective C`. 
+- `Fatal: This module requires an Objective-C mode switch to be compiled` Эта ошибка указывает на использование языковых возможностей `Objective-C` без активного переключателя режима `Objective-C`. Включите его с помощью ключа командной строки `-M` или директивы `$modewitch x`. 
+- `Error: Inherited methods can only be overridden in Objective-C and Java, add "override" (inherited method defined in arg1)` Унаследованные методы могут быть переопределены только в `Objective-C` и `Java`, добавьте `override` (унаследованный метод, определенный в arg1). 
+- `Hint: Inherited methods can only be overridden in Objective-C and Java, add "override" (inherited method defined in arg1)` Невозможно повторно ввести методы в `Objective-C` или `Java`, как в `Object Pascal`. Методы с одинаковыми именами всегда отображаются на одну и ту же запись виртуального метода. Чтобы прояснить это в исходном коде, компилятору всегда требуется указывать директиву `override` при реализации переопределения методов `Objective-C` или `Java` в `Pascal`. Если реализация внешняя, это правило смягчается, потому что `Objective-C` и `Java` не имеют ключевого слова в стиле `override` (так как это поведение по умолчанию и единственное в этих языках), что затрудняет повсеместное использование инструментов автоматического преобразования заголовков. Тип, в котором определяется унаследованный метод, упоминается явно, потому что в случае `Objective-C` это может быть либо `objcclass`, либо `objccategory`. 
+- `Error: Message name "arg1" in inherited class is different from message name "arg2" in current class` Переопределяющий метод `Objective C` не может иметь другого имени сообщения, чем унаследованный метод. Причина в том, что эти имена сообщений однозначно определяют сообщение для среды выполнения `Objective C`, что означает, что присвоение им другого имени сообщения нарушает семантику «переопределения».
+- `Error: It is not yet possible to make unique copies of Objective-C or Java types` Дублирование типа `Objective-C` или `Java` с использованием 
+```pascal
+type x = type y
+```
+пока не поддерживается. Вы можете получить желаемый эффект, используя 
+```pascal
+type 
+  x = objcclass(y) 
+end;
+```
+соответственно вместо 
+```pascal
+type 
+  x = class(y) 
+end;
+```
+- `Error: Objective-C categories and Object Pascal class helpers cannot be used as types` Невозможно объявить переменную как экземпляр категории `Objective C` или класса-хелпера `Object Pascal`. Хелпер категории/класса добавляет методы в область действия существующего класса, но не определяет тип сам по себе. Исключением из этого правила является наследование класса-хелпера `Object Pascal` от другого класса-хелпера. 
+- `Error: Categories do not override, but replace methods. Use "reintroduce" instead` Категории не переопределяют, а заменяют методы. Вместо этого используйте `reintroduce`. 
+- `Error: Replaced methods can only be reintroduced in Objective-C, add "reintroduce" (replaced method defined in arg1)` Замененные методы могут быть повторно введены только в `Objective-C`, добавьте `reintroduce` (замещенный метод, определенный в arg1).
+- `Hint: Replaced methods can only be reintroduced in Objective-C, add "reintroduce" (replaced method defined in arg1)` Категория заменяет существующий метод в классе `Objective C`, а не переопределяет его. Вызов унаследованного метода из метода категории вызовет этот метод в *родительском классе* расширенного класса, а не в самом расширенном классе. Замененный метод в исходном классе в основном теряется и больше не может быть вызван или на него нельзя сослаться. Это поведение в некоторой степени больше соответствует механизму `reintroduce`, чем `override` (хотя в случае `reintroduce` в `Object Pascal` скрытые методы все еще доступны через унаследованные). Тип, в котором определяется унаследованный метод, упоминается явно, потому что может быть либо объектным классом, либо объектной категорией. 
+- `Error: Getter for implements interface must use the target’s default calling convention` Получатели интерфейса вызываются через помощника в библиотеке времени выполнения и, следовательно, должны использовать соглашение о вызовах по умолчанию для цели (`register` для i386 и x86_64, `stdcall` для других архитектур). 
+- `Error: Typed files cannot contain reference-counted types` Данные в типизированном файле не могут относиться к типу с подсчетом ссылок (например, к `ansistring` или `record`, содержащей поле с подсчетом ссылок). 
+- `Error: Operator is not overloaded: arg2 "arg1"` Вы пытаетесь использовать перегруженный оператор, который не был перегружен для этого типа. 
+- `Error: Operator is not overloaded: "arg1" arg2 "arg3"` Вы пытаетесь использовать перегруженный оператор, который не был перегружен для этого типа. 
+- `Error: Expected another arg1 array elements` При объявлении типизированного массива констант вы предоставили несколько элементов для инициализации массива. 
+- `Error: String constant too long while ansistrings are disabled` Cтроковые константы длиннее 255 символов допускаются только тогда, когда фрагмент кода скомпилирован с включенными `ansistring` (`{$H+}`). 
+- `Error: Type cannot be used as univ parameter because its size is unknown at compile time: "arg1"` Параметры `univ` совместимы со всеми значениями одинакового размера, но это не может быть проверено, если размер параметра неизвестен во время компиляции. 
+- `Error: Only one class constructor can be declared in class: "arg1"` Вы пытаетесь объявить более одного конструктора класса, но может быть объявлен только один. 
+- `Error: Only one class destructor can be declared in class: "arg1"` Вы пытаетесь объявить более одного деструктора класса, но может быть объявлен только один деструктор класса. 
+- `Error: Class constructors cannot have parameters` Вы объявляете конструктор класса списком параметров. Методы конструктора класса не могут иметь параметров. 
+- `Error: Class destructors cannot have parameters` Вы объявляете деструктор класса списком параметров. Методы деструктора класса не могут иметь параметров. 
+- `Fatal: This construct requires the \{\$modeswitch objectivec1\} mode switch to be active` Конструкции `Objective-Pascal` не поддерживаются, когда `{$ modewitch ObjectiveC1}` не активен.
+- `Error: Unicodechar/string constants cannot be converted to ansi/shortstring at compile-time` Невозможно использовать `unicodechar` и `unicodestring` константы в константных выражениях, которые должны быть преобразованы в `ansistring` или `shortstring` во время компиляции, например, внутри типизированных констант. Причина в том, что компилятор не может знать, какой будет фактическая ANSI-кодировка во время выполнения. 
+- `Error: For-in Objective-Pascal loops require \{\$modeswitch ObjectiveC2\} to be active` В `Objective-C 2.0` была добавлена поддержка «быстрого перечисления» `Objective-C`, и, следовательно, должен быть активирован соответствующий переключатель режимов, чтобы раскрыть эту функцию. Обратите внимание, что программы `Objective-C 2.0` требуют Mac OS X 10.5 или более поздней версии. 
+- `Error: The compiler cannot find the NSFastEnumerationProtocol or NSFastEnumerationState type in the CocoaAll unit` Циклы `for-in` в `Objective-C` (быстрое перечисление) требуют, чтобы компилятор нашел модуль `CocoaAll`, содержащий определения для типов `NSFastEnumerationProtocol` и `NSFastEnumerationState`. Если вы получите эту ошибку, скорее всего, компилятор найдет и загрузит альтернативный модуль `CocoaAll`. 
+- `Error: Typed constants of the type ’procedure is nested’ can only be initialized with NIL and global procedures/functions` Вложенная процедурная переменная состоит из двух компонентов: адрес вызываемой процедуры/функции (который всегда известен во время компиляции) и также указатель родительского фрейма (который никогда не известен во время компиляции) в случае, если процедурная переменная содержит ссылку на вложенную процедуру/функцию. Поэтому такие типизированные константы могут быть инициализированы только с помощью глобальных функций/процедур, поскольку они не требуют указателя родительского фрейма. 
+- `Fatal: Declaration of generic inside another generic is not allowed` В настоящее время сканер поддерживает запись только одного буфера токенов за один раз (защищено внутренней ошибкой 200511173 в `tscannerfile.startrecordtokens`). Поскольку универсальные элементы реализуются путем записи токенов, невозможно иметь объявление универсального элемента (типа или метода) внутри другого универсального элемента. 
+- `Error: Forward declaration "arg1" must be resolved before a class can conform to or implement it` Протокол `Objective-C` или интерфейс `Java` должны быть полностью определены, прежде чем классы смогут ему соответствовать. Эта ошибка возникает в следующей ситуации (пример для `Objective C`, но то же самое касается интерфейсов `Java`):
+```pascal
+Type MyProtocol = objcprotoocl;  
+       ChildClass = Class(NSObject,MyProtocol)  
+         ...  
+       end; 
+```
+, где `MyProtocol` объявлен, но не определен.
+- `Error: Record types cannot have published sections` Разделы `published` могут использоваться только внутри классов. 
+- `Error: Destructors are not allowed in records or helpers` Деструкторы не допускаются в записях или хелперах. 
+- `Error: Class methods must be static in records` Объявления методов класса не допускаются в записях без статического модификатора. Записи не имеют наследования, и поэтому методы нестатических классов не имеют для них смысла. 
+- `Error: Parameterless constructors are not allowed in records or record/type helpers` Объявления конструкторов без аргументов не допускаются в помощниках записей или типов. 
+- `Error: Either the result or at least one parameter must be of type "arg1"` Требуется, чтобы либо результат процедуры, либо хотя бы один из ее параметров был указанного типа. Например, операторы класса либо берут экземпляр структурированного типа, в котором они определены, либо возвращают один из них. 
+- `Error: Type parameters may require initialization/finalization - cannot be used in variant records` Параметры типа могут быть специализированы для типов, которые (например, `ansistring`) нуждаются в коде инициализации/финализации, который неявно генерируется компилятором. 
+- `Error: Variables being declared as external cannot be in a custom section` Директива раздела недопустима для переменных, объявленных как внешние. 
+- `Error: Non-static and non-global variables cannot have a section directive` Переменная, помещенная в пользовательский раздел, всегда размещается статически, поэтому она должна быть статической или глобальной переменной. 
+- `Error: "arg1" is not allowed in helper types` Некоторые директивы и спецификаторы, такие как `virtual`, `dynamic`, `override`, не разрешены внутри вспомогательных типов в режиме `ObjFPC` (они игнорируются в режиме `Delphi`), потому что они не имеют смысла в помощниках. Также спецификатор `abstract`не разрешен в любом режиме. 
+- `Error: Class constructors are not allowed in helpers` Объявления конструкторов классов не допускаются в хелперах. 
+- `Error: The use of "inherited" is not allowed in a record` Поскольку записи не поддерживают наследование, использование `inherited` запрещено как для них, так и для помощников записей (только в режиме `Delphi`). 
+- `Error: Type declarations are not allowed in local or anonymous records` Записи с типами должны быть определены глобально. Типы не могут быть определены внутри записей, которые определены в процедуре или функции или в анонимных записях. 
+- `Error: Duplicate implements clause for interface "arg1"` Класс может делегировать интерфейс, используя предложение `Implements`, только одному свойству. Делегировать его несколько раз - ошибка. 
+- `Error: Interface "arg1" cannot be delegated by "arg2", it already has method resolutions` Предложение разрешения метода отображает метод интерфейса на метод текущего класса. Поэтому текущий класс должен реализовывать интерфейс напрямую. Делегирование невозможно. 
+- `Error: Interface ”arg1” cannot have method resolutions, ”arg2” already delegates it` Разрешение метода возможно только для интерфейсов, которые реализованы напрямую, а не путем делегирования. 
+- `Error: Invalid codepage` При объявлении строки с заданной кодовой страницей диапазон допустимых значений кодовых страниц ограничен от 0 до 65535.
+- `Error: Only fields (var-sections) and constants can be final in object types` Конечному (классу) полю должно быть присвоено одно значение в конструкторе (класса), и оно не может быть впоследствии перезаписано. Конечная (типизированная) константа доступна только для чтения. 
+- `Error: Final fields are currently only supported for external classes` Поддержка окончательных полей во внешних классах требует полной реализации анализа потока данных в FPC, которой в настоящее время еще не хватает. 
+- `Error: Typed constants are not allowed here, only formal constants are` Интерфейсы `Java` определяют пространство имен, в котором может быть определена формальная константа, но, поскольку они не определяют хранилище, невозможно определить типизированные константы в них (они более или менее совпадают с инициализированными полями класса). 
+- `Error: Constructors are not automatically inherited in the JVM; explicitly add a constructor that calls the inherited one if you need it` Java не добавляет автоматически унаследованные конструкторы в дочерние классы, чтобы их можно было скрыть. Для совместимости с внешним Java-кодом FPC делает то же самое. Если вам требуется доступ к тем же конструкторам в дочернем классе, определите их в дочернем классе и оттуда вызовите унаследованный.
+- `Parsing internally generated code: arg1` Компилятор иногда внутренне создает код Pascal, который впоследствии вводится в программу. Эти сообщения отображают такой код, чтобы помочь с ошибками отладки в них. 
+- `Error: This language feature is not supported on managed VM targets` Некоторые языковые функции не поддерживаются в целях, которые являются управляемыми виртуальными машинами. 
+- `Error: Calling a virtual constructor for the current instance inside another constructor is not possible on the JVM target` JVM изначально не поддерживает виртуальный конструктор. К сожалению, нам не известен способ эмулировать их таким образом, чтобы можно было поддерживать вызов виртуальных конструкторов для текущего экземпляра внутри другого конструктора. 
+- `Error: Overriding method "arg1" cannot have a lower visibility (arg2) than in parent class arg3 (arg4)` JVM не позволяет понизить видимость переопределяющего метода. 
+- `Error: Procedure/Function declared with call option NOSTACKFRAME but without ASSEMBLER` Модификатор вызова `nostackframe` должен использоваться вместе с ассемблером. 
+- `Error: Procedure/Function declared with call option NOSTACKFRAME but local stack size is arg1` Модификатор вызова `nostackframe`, используемый без модификатора ассемблера, может по-прежнему генерировать потребности в локальном стеке. 
+- `Error: Cannot generate property getter/setter arg1 because its name clashes with existing identifier arg2` Автоматически сгенерированные getter/setter не могут иметь то же имя, что и существующие идентификаторы, поскольку это может изменить поведение существующего кода. 
+- `Warning: Automatically generated property getter/setter arg1 overrides the same-named getter/setter in class arg2` Автоматически сгенерированные getter/setter свойства на платформе `JVM` являются виртуальными методами, потому что `JVM` не поддерживает не виртуальные методы, которые могут быть изменены в дочерних классы. Это означает, что если дочерний класс изменяет определение унаследованного свойства, поведение этого свойства может измениться по сравнению с собственными целями, поскольку даже если переменная объявлена как родительский тип, при вызове виртуального метода будет использоваться метод получения из дочернего элемента. Это отличается от поведения на собственных целях или когда не активируется автоматически сгенерированные getter/setter, потому что в этом случае только объявленный тип переменной влияет на поведение свойства. 
+- `Warning: Case mismatch between declared property getter/setter arg1 and automatically constructed name arg2, not changing declared name` Если указанные getter/setter свойства уже соответствуют соглашению о присвоении имен, указанному в параметре автоматической генерации getter/setter, за исключением случаев, когда используются верхний/нижний регистр, компилятор выведет предупреждение, поскольку он не может обязательно изменить это другое объявление, не может добавить его используя правильный регистр (это может противоречить исходному объявлению). Вручную исправьте регистр методов getter/setter, чтобы соответствовать требуемым правилам кодирования. `TChild` переопределяет.
+- `Error: Constants declarations are not allowed in local or anonymous records` Записи с константами должны определяться глобально. Константы не могут быть определены внутри записей, которые определены в процедуре или функции или в анонимных записях. 
+- `Error: Method declarations are not allowed in local or anonymous records` Записи с методами должны быть определены глобально. Методы не могут быть определены внутри записей, которые определены в процедуре или функции или в анонимных записях. 
+- `Error: Property declarations are not allowed in local or anonymous records` Записи со свойствами должны быть определены глобально. Свойства не могут быть определены внутри записей, которые определены в процедуре или функции или в анонимных записях. 
+- `Error: Class member declarations are not allowed in local or anonymous records` Записи с членами класса должны быть определены глобально. Члены класса не могут быть определены внутри записей, которые определены в процедуре или функции или в анонимных записях. 
+- `Error: Visibility section "arg1" not allowed in records` Разделы видимости (`protected`) и (`strict protected`) полезны только вместе с наследованием. Поскольку записи не подтверждают, что они запрещены. 
+- `Error: Directive "arg1" not allowed here` Эта директива не разрешена в данном контексте. Например, `Static` не допускается для методов экземпляра или операторов класса. 
+- `Error: Assembler blocks not allowed inside generics` Использование блоков/подпрограмм ассемблера не разрешено в дженериках. 
+- `Error: Properties can be only static, global or inside structured types` Свойства не могут быть объявлены локальными, только глобальными, используя директиву `static` или внутри структурированных типов. 
+- `Error: Overloaded routines have the same mangled name` Некоторые платформы, такие как платформа `JVM`, кодируют параметры в имени подпрограммы предписанным способом, и эта кодировка может отображать разные типы Паскаля в одно и то же закодированное (a.k.a. «искаженное») имя. Эта ошибка может быть решена только путем удаления или изменения объявлений параметров конфликтующих определений или имен подпрограмм. 
+- `Error: Default values can only be specified for value, const and constref parameters` Значение параметра по умолчанию позволяет вам не указывать значение для этого параметра при вызове подпрограммы, и компилятор вместо этого передаст указанное значение по умолчанию (постоянное). В результате значения по умолчанию могут быть указаны только для параметров, которые могут принимать постоянные значения. 
+- `Warning: Pointer type "arg1" ignored` Указанный модификатор типа `pointer` игнорируется, поскольку он не поддерживается на текущей платформе. Это происходит, например, когда дальний указатель объявляется на платформе не x86. 
+- `Error: Global Generic template references static symtable` Универсальный объект, объявленный в разделе `interface` модуля, не должен ссылаться на символы, принадлежащие исключительно разделу `implementation` этого модуля. 
+- `Error: Unit arg1 has been already compiled meanwhile` Это говорит о том, что рекурсивное чтение раздела `uses` уже вызвало компиляцию текущего модуля, поэтому текущая компиляция может быть прервана. 
+- `Error: Explicit implementation of methods for specializations of generics is not allowed` Методы, представленные в дженериках, должны быть реализованы для дженериков. Их невозможно реализовать только для специализаций. 
+- `Error: Generic methods are not allowed in interfaces` Универсальные методы недопустимы в интерфейсах, поскольку нет способа специализировать подходящую реализацию. 
+- `Error: Generic methods can not be virtual` Универсальные методы не могут быть объявлены как виртуальные, так как для каждой специализации должна быть запись VMT. Это, однако, невозможно со статическим VMT. 
+- `Error: Dynamic packages not supported for target OS` Поддержка для динамических пакетов не реализована для указанной целевой ОС или, по крайней мере, не проверена и, следовательно, отключена. 
+- `Error: The HardFloat directive cannot be used if soft float code is generated or fpu emulation is turned on` Директива `HardFloat` может использоваться только в том случае, если используется набор инструкций, который поддерживает операции с плавающей точкой. 
+- `Error: Index arg1 is not a valid internal function index` Индекс, указанный для директивы `compilerproc`, не является индексом, который распознается компилятором. 
+- `Warning: Operator overload hidden by internal operator: "arg1" arg2 "arg3"` Перегрузка оператора определена для указанной перегрузки, но внутренняя перегрузка компилятором имеет приоритет. Это происходит только для операторов, которые ранее были перегружены (например, динамический массив + динамический массив), но больше этого не происходит из-за того, что определяется внутренний оператор, в то время как это поведение контролируется переключателем режимов (в случае динамических массивов, который является переключателем режимов `ArrayOperators`). 
+- `Error: Thread variables inside classes or records must be class variables` Секция `threadvar` внутри класса или записи была запущена без префикса `class`. 
+- `Error: Only static methods and static variables can be referenced through an object type` Эта ошибка возникает в ситуации, подобной следующей:
+```pascal
+Type  
+    TObj = object  
+      procedure test;  
+    end;  
+ 
+ begin  
+   TObj.test;  
+```
+`test` не является статическим методом и поэтому не может быть вызван через тип, а только с использованием экземпляра.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Приложение Е.
 ## Пример файла gdb.ini.
 
-Здесь приеведен пример списка файлов `gdb.ini`, который дает лучшие результаты при использовании `gdb. В Linux вы должны поместить это в файл `.gdbinit` в вашем домашнем каталоге или текущем каталоге.
+Здесь приведен пример списка файлов `gdb.ini`, который дает лучшие результаты при использовании `gdb. В Linux вы должны поместить это в файл `.gdbinit` в вашем домашнем каталоге или текущем каталоге.
 ```ini
 set print demangle off  
 set gnutarget auto  
