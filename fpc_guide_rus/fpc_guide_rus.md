@@ -5513,6 +5513,44 @@ label 1;
 
 ### С.8 Исполняемые информационные сообщения.
 
+В этом разделе перечислены все сообщения, которые генерирует компилятор при создании исполняемой программы, и только при использовании внутреннего компоновщика. 
+
+- `Fatal: Can’t post process executable arg1` Неустранимая ошибка, когда компилятору не удается обработать исполняемый файл. 
+- `Fatal: Can’t open executable arg1` Неустранимая ошибка, когда компилятор не может открыть файл для исполняемого файла. 
+- `Size of Code: arg1 bytes` Информационное сообщение, показывающее размер создаваемого раздела кода. 
+- `Size of initialized data: arg1 bytes` Информационное сообщение, показывающее размер секции инициализированных данных. 
+- `Size of uninitialized data: arg1 bytes` Информационное сообщение, показывающее размер раздела неинициализированных данных. 
+- `Stack space reserved: arg1 bytes` Информационное сообщение, показывающее размер стека, который компилятор зарезервировал для исполняемого файла. 
+- `Stack space committed: arg1 bytes` Информационное сообщение, показывающее размер стека, который компилятор передал для исполняемого файла.
+
+
+### C.9 Сообщения компоновщика.
+
+В этом разделе перечислены сообщения, созданные внутренним компоновщиком. 
+
+- `Fatal: Executable image size is too big for arg1 target` Неустранимая ошибка, если результирующий исполняемый файл слишком велик. 
+- `Warning: Object file "arg1" contains 32-bit absolute relocation to symbol "arg2"` Предупреждение, когда 64-битный объектный файл содержит 32-битные абсолютные перемещения. В таком случае исполняемый образ может быть загружен только в нижние 4 Гб адресного пространства. 
+- `Error: Program segment too large (exceeds 64k by arg1 bytes)` Ошибка, когда 16-разрядная программа скомпилирована в крошечной модели памяти, но ее размер превышает 64 КБ 
+- `Error: Code segment "arg1" too large (exceeds 64k by arg2 bytes)` Ошибка когда сегмент кода 16-битной программы превышает 64 Кбайт 
+- `Error: Data segment "arg1" too large (exceeds 64k by arg2 bytes)` Ошибка, когда сегмент данных 16-битной программы превышает 64 Кбайт 
+- `Error: Segment "arg1" too large (exceeds 64k by arg2 bytes)` Ошибка, когда 16-разрядная программа содержит сегмент, длина которого превышает 64 КБ. 
+- `Error: Group "arg1" too large (exceeds 64k by arg2 bytes)` Ошибка, когда объектные модули 16-разрядной программы определяют группу сегментов, размер которой превышает 64 КБ. 
+- `Error: Cannot create a .COM file, because the program contains segment relocations` Ошибка возникает при создании файла .COM крошечной модели DOS, но по крайней мере один из объектных модулей программы содержит перемещения сегментов. Перемещение сегмента может быть вызвано использованием функции `Seg()` или директивой ассемблера `SEG` (либо во встроенном `inline assembler`  pascal, либо во внешне связанном сборочном модуле). 
+- `Warning: Program "arg1" uses experimental CheckPointer option` Программа «arg1» использует экспериментальную опцию `CheckPointer` 
+- `Error: Multiple defined symbol "arg1"` Указанный символ уже определен во всей коллекции объектных файлов. 
+- `Error: COMDAT selection mode arg1 not supported (section: "arg1")` Указанный режим выбора COMDAT не поддерживается. 
+- `Error: Associative section expected for COMDAT section "arg1"` Указанная секция COMDAT указана как ожидающая ассоциативной секции, но ни одна не указана. 
+- `Error: COMDAT section selection mode doesn’t match for section "arg1" and symbol "arg2"` Все символы/секции COMDAT должны использовать один и тот же режим выбора. 
+- `Error: Associative COMDAT section for section "arg1" not found` Раздел COMDAT ожидает ассоциативный раздел, но он не был найден в объектном файле. 
+- `Discarding duplicate symbol "arg1" due to COMDAT selection mode` В разделе COMDAT указывается, что любой раздел с тем же именем может быть выбран, и этот конкретный раздел был выбран для отказа. 
+- `Discarding duplicate symbol "arg1" with same size due to COMDAT selection mode` Раздел COMDAT указывает, что любой раздел с тем же именем и размером может быть выбран, и этот конкретный раздел был выбран для отказа. 
+- `Discarding duplicate symbol "arg1" with same content due to COMDAT selection mode` Раздел COMDAT указывает, что любой раздел с тем же именем и содержимым может быть выбран, и этот конкретный раздел был выбран для отказа. 
+- `Replacing duplicate symbol "arg1" with smaller size due to COMDAT selection mode` В разделе COMDAT указывается, что должен быть выбран самый большой раздел с тем же именем, этот конкретный раздел был больше предыдущего самого большого. 
+- `Error: Size of duplicate COMDAT symbol "arg1" differs` В разделе COMDAT указано, что все разделы с одинаковыми именами должны иметь одинаковый размер, но этот раздел имеет другой размер. 
+- `Error: Content of duplicate COMDAT symbol "arg1" differs` В разделе COMDAT указано, что все разделы с одинаковыми именами должны иметь одинаковое содержимое, но этот раздел имеет другой размер. 
+- `Error: COMDAT selection mode for symbol "arg1" differs` Режим выбора COMDAT для символа «arg1» отличается.
+
+### C.10 Сообщения загружаемых модулей.
 
 
 
