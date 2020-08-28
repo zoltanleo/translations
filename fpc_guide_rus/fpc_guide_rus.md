@@ -5617,12 +5617,75 @@ label 1;
 - `Indirect interface (objects/classes) CRC changed for unit arg1` Когда вы используете флаг `-vu`, компилятор предупреждает, что вычисленный для модуля  косвенный CRC (это CRC всех классов/объектов/интерфейсов /… в интерфейсах модулей прямо или косвенно используется этим модулем в интерфейсе) был изменен после анализа раздела `implementation`. 
 - `PPU is compiled for another i8086 memory model` Этот файл модуля был скомпилирован для другой модели памяти i8086 и не может быть прочитан. 
 - `Loading unit arg1 from package arg2` Модуль загружается из пакета. 
-- `Fatal: Internal type "arg1" was not found. Check if you use the correct run time library.` Убедитесь, что вы используете правильную библиотеку времени выполнения. Компилятор ожидает, что библиотека времени выполнения содержит определенные типы. Если вы видите эту ошибку и не изменяли код библиотеки времени выполнения, весьма вероятно, что используемая библиотека времени выполнения не соответствует используемому компилятору. Если вы изменили библиотеку времени выполнения, эта ошибка означает, что вы удалили тип, необходимый компилятору для внутреннего использования. 
+- `Fatal: Internal type "arg1" was not found. Check if you use the correct run time library` Убедитесь, что вы используете правильную библиотеку времени выполнения. Компилятор ожидает, что библиотека времени выполнения содержит определенные типы. Если вы видите эту ошибку и не изменяли код библиотеки времени выполнения, весьма вероятно, что используемая библиотека времени выполнения не соответствует используемому компилятору. Если вы изменили библиотеку времени выполнения, эта ошибка означает, что вы удалили тип, необходимый компилятору для внутреннего использования. 
 - `Fatal: Internal type ”arg1” does not look as expected. Check if you use the correct run time library.` Компилятор ожидает, что библиотека времени выполнения содержит определенные типы. Если вы видите эту ошибку и не изменяли код библиотеки времени выполнения, весьма вероятно, что используемая библиотека времени выполнения не соответствует используемому компилятору. Если вы изменили библиотеку времени выполнения, эта ошибка означает, что вы изменили тип, который требуется компилятору для внутреннего использования и который должен иметь определенную структуру.
 
 
 
 ### C.11 Ошибки обработки командной строки.
+
+В этом разделе перечислены ошибки, которые возникают, когда компилятор обрабатывает командную строку или файлы конфигурации. 
+
+- `Warning: Only one source file supported, changing source file to compile from "arg1" into "arg2"` Вы можете указать только один исходный файл в командной строке. Последний будет скомпилирован, остальные игнорируются. Это может означать, что вы забыли знак `-`. 
+- `Warning: DEF file can be created only for OS/2` Этот параметр можно указать только при компиляции для OS/2. 
+- `Error: nested response files are not supported` Файлы ответов нельзя вложить с помощью параметра командной строки `@file`. 
+- `Fatal: No source file name in command line` Компилятор ожидает имя исходного файла в командной строке. 
+- `Note: No option inside arg1 config file` Компилятор не нашел подобной опции в этом конфигурационном файле. 
+- `Error: Illegal parameter: arg1` Вы указали неизвестный параметр. 
+- `Hint: -? writes help pages` Если задана неизвестная опция, отображается это сообщение. 
+- `Fatal: Too many config files nested` Можно вложить не более 16 файлов конфигурации. 
+- `Fatal: Unable to open file arg1` Не удается найти файл параметров. 
+- `Reading further options from arg1` Отображается, когда у вас включены пометки, и компилятор переключается на другой файл параметров. 
+- `Warning: Target is already set to: arg1` Отображается, если указано более одной опции `-T`.
+- `Warning: Shared libs not supported on DOS platform, reverting to static` Если вы укажете `-CD` для платформы DOS, отобразится это сообщение. Компилятор под DOS поддерживает только статические библиотеки. 
+- `Fatal: In options file arg1 at line arg2 too many #IF(N)DEFs encountered` Операторы `#IF(N)DEF` в файле параметров не сбалансированы с операторами `#ENDIF`. 
+- `Fatal: In options file arg1 at line arg2 unexpected #ENDIFs encountered` Операторы `#IF(N)DEF` в файле параметров не сбалансированы с операторами `#ENDIF`.
+- `Fatal: Open conditional at the end of the options file` Операторы `#IF(N)DEF` в файле параметров не сбалансированы с операторами `#ENDIF`. 
+- `Warning: Debug information generation is not supported by this executable` Возможно, есть исполняемый файл компилятора, который не поддерживает создание отладочной информации. Это предупреждение отобразится, если вы используете такой исполняемый файл с параметром `-g`. 
+- `Hint: Try recompiling with -dGDB` Возможно, исполняемый файл компилятора не поддерживает создание отладочной информации. Это предупреждение отобразится, если вы используете такой исполняемый файл с параметром `-g`. 
+- `Warning: You are using the obsolete switch arg1` Предупреждает вас, когда вы используете переключатель, который больше не нужен/не поддерживается. Рекомендуется удалить переключатель, чтобы избежать проблем в будущем, когда значение переключателя может измениться. 
+- `Warning: You are using the obsolete switch arg1, please use arg2` Предупреждает вас, когда вы используете переключатель, который больше не поддерживается. Вместо этого вы должны использовать второй переключатель. Рекомендуется сменить переключатель, чтобы избежать проблем в будущем, когда значение переключателя может измениться.
+- `Note: Switching assembler to default source writing assembler` Уведомляет вас о том, что ассемблер был изменен из-за того, что вы использовали переключатель `-a`, который нельзя использовать с записывающим двоичным ассемблером. 
+- `Warning: Assembler output selected "arg1" is not compatible with "arg2"` Выбранный вывод "arg1" ассемблера  несовместим с "arg2" 
+- `Warning: ”arg1” assembler use forced` Выбранный вывод ассемблера не может генерировать объектные файлы правильного формата. Поэтому вместо этого используется ассемблер по умолчанию для этой цели. 
+- `Reading options from file arg1` Параметры также считываются из этого файла.
+- `Reading options from environment arg1` Параметры также считываются из этой строки среды. 
+- `Handling option "arg1"` Отладочная информация о том, что опция найдена и будет обработана. 
+- `*** press enter ***` Сообщение показывается, когда справка отображается страница за страницей. При нажатии клавиши `<ENTER>` отображается следующая страница справки. Если вы нажмете `<q>`, а затем `<ENTER>`, компилятор завершит работу. 
+- `Hint: Start of reading config file arg1` Начало разбора файла конфигурации. 
+- `Hint: End of reading config file arg1` Конец анализа файла конфигурации.
+- `interpreting option "arg1"` Компилятор интерпретирует параметр.
+- `interpreting firstpass option "arg1"` Компилятор впервые интерпретирует параметр. 
+- `interpreting file option "arg1"` Компилятор интерпретирует параметр, который он считал из файла конфигурации. 
+- `Reading config file "arg1"` Компилятор начинает чтение файла конфигурации. 
+- `found source file name "arg1"` Дополнительная информация о параметрах. Отображается, когда у вас включена опция `debug`. 
+- `Error: Unknown codepage "arg1"` Запрошена неизвестная кодовая страница для исходных файлов. Компилятор был скомпилирован с поддержкой нескольких встроенных кодовых страниц. Запрошенной кодовой страницы нет в этом списке. Вам нужно будет пересобрать компилятор с поддержкой нужной кодовой страницы. 
+- `Fatal: Config file arg1 is a directory` Каталоги не могут использоваться в качестве файлов конфигурации. 
+- `Warning: Assembler output selected "arg1" cannot generate debug info, debugging disabled` Выбранный вывод ассемблера не может генерировать отладочную информацию, поэтому опция отладки отключена. 
+- `Warning: Use of ppc386.cfg is deprecated, please use fpc.cfg instead` Использование `ppc386.cfg` по-прежнему поддерживается по историческим причинам, однако для многоплатформенной системы именование больше не имеет смысла. В дальнейшем используйте вместо этого `fpc.cfg`. 
+- `Fatal: In options file arg1 at line arg2 #ELSE directive without #IF(N)DEF found` В файле параметров найден оператор `#ELSE` без соответствующего оператора `#IF(N)DEF`.
+- `Fatal: Option "arg1" is not, or not yet, supported on the current target platform` Не все параметры поддерживаются или реализованы для всех целевых платформ. Это сообщение информирует вас о том, что выбранный вариант несовместим с текущей выбранной целевой платформой. 
+- `Fatal: The feature "arg1" is not, or not yet, supported on the selected target platform` Не все функции поддерживаются или реализованы для всех целевых платформ. Это сообщение информирует вас о том, что выбранная функция несовместима с выбранной в данный момент целевой платформой. 
+- `Note: DWARF debug information cannot be used with smart linking on this target, switching to static linking` В настоящее время smart linking(интеллектуальное связывание) несовместимо с отладочной информацией `DWARF` на большинстве платформ, поэтому smart linking в таких случаях отключено. 
+- `Warning: Option "arg1" is ignored for the current target platform` Не все параметры поддерживаются или реализованы для всех целевых платформ. Это сообщение информирует вас о том, что выбранный вариант игнорируется для выбранной в данный момент целевой платформы. 
+- `Warning: Disabling external debug information because it is unsupported for the selected target/debug format combination` Не все форматы отладки можно сохранить во внешнем файле на всех платформах. В частности, в Mac OS X вовне может храниться только отладочная информация `DWARF`. 
+- `Note: DWARF debug information cannot be used with smart linking with external assembler, disabling static library creation` Smart linking(интеллектуальное связывание) в настоящее время несовместимо с отладочной информацией `DWARF` на большинстве платформ, поэтому в таких случаях smart linking отключается. 
+- `Error: Invalid value for MACOSX_DEPLOYMENT_TARGET environment variable: arg1` Недопустимое значение для переменной среды `MACOSX_DEPLOYMENT_TARGET`. 
+- `Error: Invalid value for IPHONEOS_DEPLOYMENT_TARGET environment variable: arg1` В Mac OS X `MACOSX_DEPLOYMENT_TARGET`/`IPHONEOS_DEPLOYMENT_TARGET`/`IPHONEOS_DEPLOYMENT_TARGET` можно использовать по умолчанию для установки целевой переменной среды версии OS. В случае Mac OS X он должен иметь формат `XY.Z` или `XY.Z.AB` с `X`, `Y`, `Z`, `A` и `B` - все в виде цифр от 0 до 9. В случае iOS это должно быть `X.Z.A`, где `X`, `Z` и `A` могут состоять из 1 или 2 цифр от 0 до 9.
+- `Error: You must use a FPU type of VFPV2, VFPV3 or VFPV3_D16 when using the EABIHF ABI target` Целевой объект `EABIHF` (VFP hardfloat, или жесткая плавающая точка VFP) может использоваться только с FPU VFP. 
+- `Warning: The selected debug format is not supported on the current target, not changing the current setting` Не все целевые объекты поддерживают все форматы отладки (в частности, `Stabs` не поддерживается на 64-битных целях). 
+- `Error: argument to "arg1" is missing` Отображается, когда за параметром должен следовать аргумент. 
+- `Error: malformed parameter: arg` Данный аргумент недопустим для параметра. 
+- `Warning: Smart linking requires external linker` Для умного связывания требуется внешний компоновщик
+- `Error: Creating .COM files is not supported in the current memory model. Only the tiny memory model supports making .COM files` Не включайте экспериментальную опцию `-gc`, если задана опция `-Ur`. 
+- `Warning: Experimental CheckPointer option not enabled because it is incomptatible with -Ur option` Бинарный файл компилятора поддерживает только одну целевую архитектуру. Вызовите двоичный файл fpc, если вы хотите выбрать двоичный файл компилятора для другой целевой архитектуры. 
+- `Error: Unsupported target architecture -Parg1, invoke the "fpc" compiler driver instead` Исполняемые файлы `ppc¡target¿` поддерживают только одну целевую архитектуру. Они не поддерживают переключатель `-P`. Драйвер компилятора «fpc» обрабатывает этот переключатель, поэтому вы должны вызывать компиляцию, используя вместо него «fpc». 
+- `Error: Feature switches are only supported while compiling the system unit` Чтобы выбрать определенную функцию, модуль `system` должен быть скомпилирован с включенной функцией. Все остальные модули наследуют функции, заданные модулем `system` через `ppu` модуля `system`. 
+- `Note: The selected debug format is not supported by the internal linker, switching to external linking` Выбранный формат отладки не поддерживается внутренним компоновщиком, поэтому будет произведено переключение на внешнее связывание.
+
+
+
+### C.12 Сообщения об оптимизации всей программы.
 
 
 
