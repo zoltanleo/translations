@@ -46,7 +46,7 @@ end;
 
 | Рисунок 1: Простое перетаскивание панели инструментов        |
 | ------------------------------------------------------------ |
-| ![](D:\Archive\github\translations\docking_in_lazarus\pictures\pict_1_simple_dragging_toolbar.png) |
+| ![](pictures\pict_1_simple_dragging_toolbar.png) |
 
 
 
@@ -111,7 +111,7 @@ end;
 
 | Рисунок 2: Пристыкованная снизу панель инструментов          |
 | ------------------------------------------------------------ |
-| <img src="D:\Archive\github\translations\docking_in_lazarus\pictures\pict_2_toolbar_docked_bottom.png" /> |
+| <img src="pictures\pict_2_toolbar_docked_bottom.png" /> |
 
 
 
@@ -150,7 +150,7 @@ end;
 
 | Рисунок 3: Регулировка размера DockRect                      |
 | ------------------------------------------------------------ |
-| <img src="D:\Archive\github\translations\docking_in_lazarus\pictures\pict_3_adjusting_size_dockrect.png" style="zoom:60%;" /> |
+| <img src="pictures\pict_3_adjusting_size_dockrect.png" style="zoom:60%;" /> |
 
 
 
@@ -249,7 +249,7 @@ end;
 
 | Рисунок 4: Плавающая панель вручную                          |
 | ------------------------------------------------------------ |
-| <img src="D:\Archive\github\translations\docking_in_lazarus\pictures\pict_4_man_float_panel.png"  /> |
+| <img src="pictures\pict_4_man_float_panel.png"  /> |
 
 Наконец, также можно вручную пристыковать элемент управления к стыковочному узлу. Это можно сделать с помощью метода `ManualDock` элемента управления:
 ```pascal
@@ -303,7 +303,7 @@ var
 
 | Рисунок 5: Менеджер пристыковки элемента управления PageControl |
 | ------------------------------------------------------------ |
-| ![](D:\Archive\github\translations\docking_in_lazarus\pictures\pict_5_dockmanager_pagecontrol.png) |
+| ![](pictures\pict_5_dockmanager_pagecontrol.png) |
 Оригинальная форма, как в конструкторе, также видна, чтобы показать разницу.
 
 
@@ -314,7 +314,7 @@ var
 
 | Рисунок 6: Эффект работы менеджера стыковки модуля ldocktree |
 | ------------------------------------------------------------ |
-| ![](D:\Archive\github\translations\docking_in_lazarus\pictures\pict_6_ldocktree_dockmanag_effect.png) |
+| ![](pictures\pict_6_ldocktree_dockmanag_effect.png) |
 
 Он показывает 3 раза одну и ту же форму: *вверху* находится форма в режиме дизайна. *Левая нижняя форма* - это форма с двумя пристыкованными панелями, но без установленного менеджера стыковки: панель 2 была пристыкована последней и является единственной видимой. *Правая нижняя форма* относится к приложению, которое использует модуль `ldocktree`. Выглядит это заметно иначе: диспетчер стыковочного узла поместил панели в какое-то мини-окно и поместил их в стыковочный узел.
 
@@ -332,7 +332,7 @@ end;
 
 | Рисунок 7: Пользовательские заголовки для диспетчера стыковки |
 | ------------------------------------------------------------ |
-| <img src="D:\Archive\github\translations\docking_in_lazarus\pictures\pict_7_custom_capt_dockmanag.png" style="zoom:50%;" /> |
+| <img src="pictures\pict_7_custom_capt_dockmanag.png" style="zoom:50%;" /> |
 
 
 Конечно, можно установить другие менеджеры стыковки: каталог *examples/dockmanager* в дереве исходных текстов Lazarus содержит реализацию менеджера стыковки, который реализует даже другие эффекты. Он поставляется с некоторыми демонстрационными программами, которые можно скомпилировать с разными директивами компилятора, чтобы показать различия. Он также содержит исследование по добавлению поддержки стыковки в саму Lazarus IDE. Заинтересованный читатель обязательно должен попробовать эти примеры, из них можно многое узнать о стыковках и диспетчерах стыковок.
