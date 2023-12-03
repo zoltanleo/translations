@@ -46,7 +46,7 @@ end;
 
 | Рисунок 1: Простое перетаскивание панели инструментов        |
 | ------------------------------------------------------------ |
-| ![](pictures/pict_1_simple_dragging_toolbar.png =500x)|
+| ![](<img src="pictures/pict_1_simple_dragging_toolbar.png" width="200" height="100">)|
 
 
 
